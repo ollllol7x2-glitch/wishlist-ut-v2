@@ -475,11 +475,6 @@ function updateBottomNav(){
   if(homeIcon)homeIcon.src=`assets/icons/${navRoute==='home'?'icon-home-solid.svg':'icon-home-bold.svg'}`;
 }
 
-function setStatusTime(route){
-  const times={wishlist:'20:44',home:'20:44',search:state.searchScope==='all'?'20:48':state.searchQuery==='트렌치'?'20:46':'20:47',price:'21:35',notifications:'22:04',edit:'14:15',archive:'14:22',cart:'13:20',cleanup:'20:44',detail:'09:15'};
-  document.querySelector('.status-bar time').textContent=times[route]||'20:44';
-}
-
 function showRoute(route,options={}){
   if(state.route!==route) state.previousRoute=state.route;
   state.route=route;
@@ -488,8 +483,6 @@ function showRoute(route,options={}){
   wishlistView.hidden=!isWishlist;
   routeScreen.hidden=isWishlist;
   if(!isWishlist) renderRoute();
-  document.querySelector('.status-bar').hidden=route==='lockscreen';
-  setStatusTime(route);
   updateBottomNav();
   updateReviewLabel();
   content.scrollTo({top:0,behavior:'instant'});
@@ -614,14 +607,14 @@ function openHashState(hash){
   if(key==='B2'){showRoute('price');return;}
   if(key==='C1'){showRoute('home');return;}
   if(key==='C2'){showRoute('notifications');return;}
-  if(key==='D1'){showRoute('wishlist');document.querySelector('.status-bar time').textContent='20:46';window.setTimeout(showRevisit,40);return;}
+  if(key==='D1'){showRoute('wishlist');window.setTimeout(showRevisit,40);return;}
   if(key==='E0'){showRoute('edit');return;}
   if(['E3','E3a','E3b','E3c','E3e'].includes(key)){state.archiveVariant=key;showRoute('archive');return;}
   if(key==='E3i'){state.archiveVariant='E3';showRoute('archive');window.setTimeout(showArchiveInfo,40);return;}
   if(key==='F2'){showRoute('cart');return;}
-  if(key==='G1'){showRoute('wishlist');document.querySelector('.status-bar time').textContent='09:14';window.setTimeout(()=>showRestock('active'),40);return;}
+  if(key==='G1'){showRoute('wishlist');window.setTimeout(()=>showRestock('active'),40);return;}
   if(key==='G1p'){showRoute('lockscreen');return;}
-  if(key==='G2'){showRoute('wishlist');document.querySelector('.status-bar time').textContent='09:14';window.setTimeout(()=>showRestock('archive'),40);return;}
+  if(key==='G2'){showRoute('wishlist');window.setTimeout(()=>showRestock('archive'),40);return;}
   if(key==='G2b'){showRoute('detail');return;}
   if(key==='G3a'||key==='G3b'||key==='G3c'){state.cleanupResult=key==='G3b'?'keep':key==='G3c'?'clean':null;showRoute('cleanup');return;}
   showRoute('wishlist');

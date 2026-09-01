@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded',()=>{
       <iframe title="${escapeText(task.id)} 개선안 프로토타입" allow="clipboard-write"></iframe>
     </section>`;
     iframe=root.querySelector('iframe');
-    const prototypeQuery=new URLSearchParams({ut:'1',task:taskId,condition,participant,build:'20'});
+    const prototypeQuery=new URLSearchParams({ut:'1',task:taskId,condition,participant,build:'21'});
     const conditionKey=condition==='before-live'?'before':'after';
     const start=task.conditions?.[conditionKey]?.start||'wishlist';
     const startHash={home:'C1',wishlist:'A1','cleanup-complete':'G3c','wishlist-after-cleanup':'A1C'}[start]||'A1';
