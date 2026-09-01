@@ -1,0 +1,54 @@
+@font-face{font-family:Pretendard;src:url("assets/fonts/Pretendard-Regular.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:Pretendard;src:url("assets/fonts/Pretendard-SemiBold.woff2") format("woff2");font-weight:600 800;font-display:swap}
+:root{font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif;color:#202124;background:#f5f6f7;font-synthesis:none}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{padding:max(18px,env(safe-area-inset-top)) 14px max(30px,env(safe-area-inset-bottom))}
+button,a{font:inherit}
+button{cursor:pointer}
+main{max-width:720px;margin:0 auto}
+.page-header{padding:12px 4px 20px}
+.page-header p,.section-head small,.section-title small{margin:0;color:#d93b9e;font-size:11px;font-weight:700;letter-spacing:.3px}
+.page-header h1{margin:7px 0 8px;font-size:27px;letter-spacing:-.5px}
+.page-header span{display:block;color:#6f767c;font-size:13px;line-height:1.55}
+.card,.task-card{margin-bottom:12px;padding:17px;border:1px solid #e1e4e6;border-radius:14px;background:#fff}
+.section-head,.section-title{display:flex;align-items:flex-start;justify-content:space-between}
+.section-head h2,.section-title h2{margin:4px 0 0;font-size:18px}
+.section-head>b{padding:5px 8px;border-radius:999px;background:#f1f2f3;color:#747b80;font-size:11px}
+.participant-buttons{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:16px}
+.participant-buttons button{height:42px;border:1px solid #dfe2e4;border-radius:9px;background:#fff;color:#383d41;font-weight:700}
+.participant-buttons button.is-selected{border-color:#202124;background:#202124;color:#fff}
+.participant-card>p,.export-card>p{margin:13px 0 0;color:#7c8388;font-size:11px;line-height:1.5}
+.operation-card ol{margin:14px 0 0;padding-left:22px;color:#5e656a;font-size:12px;line-height:1.65}
+.operation-card li+li{margin-top:6px}
+.section-title{padding:12px 4px 9px}
+.section-title>span{align-self:flex-end;color:#8c9297;font-size:11px}
+.task-card header{display:flex;gap:11px;align-items:flex-start}
+.task-card header>span{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;flex:none;background:#202124;color:#fff;font-size:12px;font-weight:700}
+.task-card h3{margin:0;font-size:17px;line-height:1.35}
+.task-card header p{margin:4px 0 0;color:#8a9095;font-size:11px}
+.task-card blockquote{margin:16px 0 0;padding:13px 14px;border:0;border-radius:10px;background:#f5f6f7;color:#454b50;font-size:13px;line-height:1.55}
+.order-strip{margin:12px 0 8px;padding:8px 10px;border-radius:8px;background:#fff3fb;color:#a32879;font-size:11px}
+.condition-list{border-top:1px solid #eceef0}
+.condition-row{min-height:78px;padding:12px 0;display:grid;grid-template-columns:30px 1fr 58px;gap:8px;align-items:center;border-bottom:1px solid #eceef0}
+.condition-row:last-child{border-bottom:0}
+.condition-index{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;background:#f0f1f2;color:#656c71;font-size:11px;font-weight:700}
+.condition-row>div{min-width:0;display:flex;flex-direction:column}
+.condition-row b{font-size:13px}
+.condition-row small{margin-top:3px;color:#7d8489;font-size:10px;line-height:1.4}
+.condition-row em{align-self:flex-start;margin-top:5px;padding:2px 6px;border-radius:999px;background:#f1f2f3;color:#7a8186;font-size:9px;font-style:normal}
+.condition-row em.is-complete{background:#e9f8f0;color:#178653}
+.condition-row em.is-running{background:#fff4df;color:#a56600}
+.condition-row a{height:38px;border-radius:8px;display:grid;place-items:center;background:#202124;color:#fff;font-size:12px;font-weight:700;text-decoration:none}
+.condition-row a[aria-disabled="true"]{background:#d3d6d8;pointer-events:none}
+.task-card.is-pending{padding:14px 17px;opacity:.65}
+.task-card.is-pending header>span{background:#a9aeb2}
+.task-card.is-pending>small{display:block;margin:10px 0 0 49px;color:#70777c;font-size:11px;line-height:1.5}
+.export-actions{display:grid;gap:8px;margin-top:15px}
+.export-actions button{height:48px;border-radius:9px;font-weight:700}
+.primary{border:0;background:#202124;color:#fff}
+.secondary{border:1px solid #dadddf;background:#fff;color:#30353a}
+@media (min-width:720px){
+  body{padding-top:34px}
+  .export-actions{grid-template-columns:1fr 1fr}
+}

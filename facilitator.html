@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f5f6f7">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <link rel="icon" href="data:,">
+  <title>찜 UT v2 · 모바일 세션 홈</title>
+  <link rel="preload" href="assets/fonts/Pretendard-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/Pretendard-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="facilitator.css?v=2">
+  <script src="task-manifest.js?v=10" defer></script>
+  <script src="session-store.js?v=3" defer></script>
+  <script src="facilitator.js?v=5" defer></script>
+</head>
+<body>
+  <main>
+    <header class="page-header">
+      <p>진행자용 · 모바일 비교 UT</p>
+      <h1>찜 사용성 테스트 v2</h1>
+      <span>한 휴대폰에서 기존 지그재그와 개선안을 순서대로 진행하고, 마지막에 통합 CSV를 저장합니다.</span>
+    </header>
+
+    <section class="card participant-card" aria-labelledby="participant-title">
+      <div class="section-head"><div><small>STEP 1</small><h2 id="participant-title">참여자 선택</h2></div><b id="participant-status">선택 전</b></div>
+      <div class="participant-buttons" role="group" aria-label="참여자 선택">
+        <button type="button" data-participant="P1">P1</button>
+        <button type="button" data-participant="P2">P2</button>
+        <button type="button" data-participant="P3">P3</button>
+        <button type="button" data-participant="P4">P4</button>
+        <button type="button" data-participant="P5">P5</button>
+      </div>
+      <p id="order-note">참여자를 선택하면 과업 순서와 기록이 연결됩니다.</p>
+    </section>
+
+    <section class="card operation-card" aria-labelledby="operation-title">
+      <div class="section-head"><div><small>STEP 2</small><h2 id="operation-title">운영 순서</h2></div></div>
+      <ol>
+        <li>참가자가 각 조건의 과업을 읽고 <b>과업 시작</b>을 직접 누릅니다.</li>
+        <li>기존 조건에서는 지그재그 앱으로 전환하고, 끝나면 브라우저로 돌아와 <b>과업 완료</b>를 누릅니다.</li>
+        <li>개선안은 시간·탭·스크롤·경로·성공 시점을 자동 기록합니다.</li>
+        <li>각 조건 직후 참가자가 SEQ와 과업별 후속 질문에 답하고, 진행자가 관찰 내용을 입력합니다.</li>
+      </ol>
+    </section>
+
+    <section class="task-section" aria-labelledby="tasks-title">
+      <div class="section-title"><div><small>STEP 3</small><h2 id="tasks-title">과업 실행</h2></div><span>T1–T4 실행 가능</span></div>
+      <article class="task-card is-ready" data-task-card="t1">
+        <header><span>T1</span><div><h3>홈에서 이전 찜 상품 다시 마주하기</h3><p>K1 찜 재방문율</p></div></header>
+        <blockquote>“전에 찜해 둔 슬로우앤드의 흰색 롱스커트를 다시 보고 싶습니다. 해당 상품을 찾아 현재 가격을 확인해 주세요.”</blockquote>
+        <div class="order-strip" data-order-strip>권장 순서: 참여자 선택 후 표시</div>
+        <div class="condition-list">
+          <div class="condition-row" data-condition-row="before-live">
+            <span class="condition-index">A</span>
+            <div><b>기존 지그재그</b><small>홈 → 실제 앱 탐색 · 시간 자동 / 탭·스크롤 관찰 입력</small><em data-status>미진행</em></div>
+            <a data-condition-link="before-live" aria-disabled="true">시작</a>
+          </div>
+          <div class="condition-row" data-condition-row="after-prototype">
+            <span class="condition-index">B</span>
+            <div><b>개선안</b><small>C1 기준 상품 선택 → 연관 찜 상품 → 상세 · 행동 자동 기록</small><em data-status>미진행</em></div>
+            <a data-condition-link="after-prototype" aria-disabled="true">시작</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="task-card is-ready" data-task-card="t2">
+        <header><span>T2</span><div><h3>찜 안에서 매몰된 상품 재검토</h3><p>K2 매몰 구간 재검토율</p></div></header>
+        <blockquote>“예전에 찜해 둔 은색 로고가 있는 흰색 카드지갑을 다시 보고 싶습니다. 해당 상품을 찾아 현재 가격과 상세 정보를 확인해 주세요.”</blockquote>
+        <div class="order-strip" data-order-strip>권장 순서: 참여자 선택 후 표시</div>
+        <div class="condition-list">
+          <div class="condition-row" data-condition-row="before-live">
+            <span class="condition-index">A</span>
+            <div><b>기존 지그재그</b><small>찜 428개 긴 목록에서 직접 탐색 · 시간 자동 / 탭·스크롤 관찰 입력</small><em data-status>미진행</em></div>
+            <a data-condition-link="before-live" aria-disabled="true">시작</a>
+          </div>
+          <div class="condition-row" data-condition-row="after-prototype">
+            <span class="condition-index">B</span>
+            <div><b>개선안</b><small>A1 → 다시 살펴볼 상품·검색·직접 탐색 → 대상 상세 · 행동 자동 기록</small><em data-status>미진행</em></div>
+            <a data-condition-link="after-prototype" aria-disabled="true">시작</a>
+          </div>
+        </div>
+      </article>
+      <article class="task-card is-ready" data-task-card="t3">
+        <header><span>T3</span><div><h3>찜 상품 20개 정리</h3><p>K3 찜 목록 관리 이탈률</p></div></header>
+        <blockquote>“찜 상품이 너무 많아 목록을 정리하려고 합니다. 현재 찜 목록에서 제외하고 싶은 상품 20개를 정리해 주세요.”</blockquote>
+        <div class="order-strip" data-order-strip>권장 순서: 참여자 선택 후 표시</div>
+        <div class="condition-list">
+          <div class="condition-row" data-condition-row="before-live">
+            <span class="condition-index">A</span>
+            <div><b>기존 지그재그</b><small>찜 기본 → 편집 → 상품 20개 선택 → 삭제 · 탭·스크롤 관찰 입력</small><em data-status>미진행</em></div>
+            <a data-condition-link="before-live" aria-disabled="true">시작</a>
+          </div>
+          <div class="condition-row" data-condition-row="after-prototype">
+            <span class="condition-index">B</span>
+            <div><b>개선안</b><small>A1 → 숨긴 상품 → 오래 담아둔 상품 28개 제안 → 정리하기 · 행동 자동 기록</small><em data-status>미진행</em></div>
+            <a data-condition-link="after-prototype" aria-disabled="true">시작</a>
+          </div>
+        </div>
+      </article>
+      <article class="task-card is-ready" data-task-card="t4">
+        <header><span>T4</span><div><h3>정리한 상품 복원</h3><p>K3 보조 · 정리 기능 안전성</p></div></header>
+        <blockquote>“방금 정리한 상품 중 ‘핀턱 와이드 슬랙스’를 다시 찜 목록에서 볼 수 있게 해 주세요.”</blockquote>
+        <div class="order-strip" data-order-strip>개선안 전용 과업</div>
+        <div class="condition-list">
+          <div class="condition-row" data-condition-row="after-prototype">
+            <span class="condition-index">B</span>
+            <div><b>개선안</b><small>정리 후 찜 기본 → 숨긴 상품 → 편집 → 대상 상품 복원</small><em data-status>미진행</em></div>
+            <a data-condition-link="after-prototype" aria-disabled="true">시작</a>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="card export-card">
+      <div class="section-head"><div><small>STEP 4</small><h2>세션 마무리</h2></div></div>
+      <div class="export-actions"><button type="button" class="primary" id="export-csv">통합 CSV 저장</button><button type="button" class="secondary" id="reset-participant">이 참여자 기록 초기화</button></div>
+      <p>CSV에는 조건별 성공 여부, 시간, SEQ, 과업별 후속 응답, 도움 여부, 탭·스크롤과 이벤트 경로가 포함됩니다.</p>
+    </section>
+  </main>
+</body>
+</html>
