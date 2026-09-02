@@ -115,9 +115,20 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   function renderPrototype(){
     root.innerHTML=`<section class="prototype-stage">
-      <span class="prototype-rec">기록 중</span>
+      <div class="prototype-controls">
+        <button class="prototype-rec" type="button" data-toggle-prototype-controls aria-expanded="false">기록 중</button>
+        <button class="prototype-stop" type="button" data-stop-prototype hidden>과업 중단</button>
+      </div>
       <iframe title="${escapeText(task.id)} 개선안 프로토타입" allow="clipboard-write"></iframe>
     </section>`;
+    const toggle=root.querySelector('[data-toggle-prototype-controls]');
+    const stop=root.querySelector('[data-stop-prototype]');
+    toggle.addEventListener('click',()=>{
+      const expanded=toggle.getAttribute('aria-expanded')==='true';
+      toggle.setAttribute('aria-expanded',String(!expanded));
+      stop.hidden=expanded;
+    });
+    root.querySelector('[data-stop-prototype]').addEventListener('click',stopPrototype);
     iframe=root.querySelector('iframe');
     const prototypeQuery=new URLSearchParams({ut:'1',task:taskId,condition,participant,build:'21'});
     const conditionKey=condition==='before-live'?'before':'after';
@@ -125,6 +136,18 @@ document.addEventListener('DOMContentLoaded',()=>{
     const startHash={home:'C1',wishlist:'A1','cleanup-complete':'G3c','wishlist-after-cleanup':'A1C'}[start]||'A1';
     iframe.src=`prototype.html?${prototypeQuery.toString()}#${startHash}`;
     iframe.addEventListener('load',attachPrototypeTracking);
+  }
+
+  function stopPrototype(){
+    const run=currentRun();
+    if(!run||run.endedAt)return;
+    clearTimeout(scrollTimer);
+    scrollTimer=0;
+    window.UTStore.addEvent(participant,taskId,condition,{
+      type:'interrupted',route:routeLabel(),reason:'participant-abandoned'
+    });
+    window.UTStore.finishRun(participant,taskId,condition,{outcome:'interrupted'});
+    renderResult();
   }
 
   function visibleLabel(target){

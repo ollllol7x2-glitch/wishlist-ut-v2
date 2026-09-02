@@ -7,7 +7,7 @@ window.UT_TASKS = {
     prompt: '전에 찜해 둔 슬로우앤드의 흰색 롱스커트를 다시 보고 싶습니다. 해당 상품을 찾아 현재 가격을 확인해 주세요.',
     highlight: '슬로우앤드의 흰색 롱스커트',
     end: '과업 조건에 맞는 대상 상품의 상세 화면을 확인하면 종료합니다.',
-    kpi: 'K1 찜 재방문율',
+    metric: '대상 상세 도달 성공률 · 도달 시간 · 조작 수',
     conditions: {
       before: {
         start: 'before-home',
@@ -29,7 +29,7 @@ window.UT_TASKS = {
     prompt: '예전에 찜해 둔 은색 로고가 있는 흰색 카드지갑을 다시 보고 싶습니다. 해당 상품을 찾아 현재 가격과 상세 정보를 확인해 주세요.',
     highlight: '은색 로고가 있는 흰색 카드지갑',
     end: '과업 조건에 맞는 대상 상품의 상세 화면을 확인하면 종료합니다.',
-    kpi: 'K2 매몰 구간 재검토율',
+    metric: '매몰 상품 재검토 성공률 · 탐색 시간 · 스크롤 수',
     conditions: {
       before: {
         start: 'before-wishlist',
@@ -51,7 +51,7 @@ window.UT_TASKS = {
     prompt: '찜 상품이 너무 많아 목록을 정리하려고 합니다. 현재 찜 목록에서 제외하고 싶은 상품 20개를 정리해 주세요.',
     highlight: '제외하고 싶은 상품 20개',
     end: '기존안은 상품 20개를 선택해 삭제 버튼을 누르면, 개선안은 20개 이상이 포함된 제안에서 정리하기를 누르면 종료합니다.',
-    kpi: 'K3 찜 목록 관리 이탈률',
+    metric: '20개 정리 완료율 · 중도 이탈 여부',
     conditions: {
       before: {
         start: 'before-wishlist',
@@ -71,7 +71,7 @@ window.UT_TASKS = {
     prompt: '방금 정리한 상품 중 ‘핀턱 와이드 슬랙스’를 다시 찜 목록에서 볼 수 있게 해 주세요.',
     highlight: '핀턱 와이드 슬랙스',
     end: '핀턱 와이드 슬랙스의 복원 동작을 실행하면 종료합니다.',
-    kpi: 'K3 보조 지표 · 정리 기능 안전성',
+    metric: '지정 상품 복원 성공률',
     conditions: {
       after: {
         start: 'wishlist-after-cleanup',

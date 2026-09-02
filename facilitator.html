@@ -10,7 +10,7 @@
   <link rel="preload" href="assets/fonts/Pretendard-Regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/Pretendard-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="facilitator.css?v=2">
-  <script src="task-manifest.js?v=10" defer></script>
+  <script src="task-manifest.js?v=11" defer></script>
   <script src="session-store.js?v=3" defer></script>
   <script src="facilitator.js?v=5" defer></script>
 </head>
@@ -40,6 +40,7 @@
         <li>참가자가 각 조건의 과업을 읽고 <b>과업 시작</b>을 직접 누릅니다.</li>
         <li>기존 조건에서는 지그재그 앱으로 전환하고, 끝나면 브라우저로 돌아와 <b>과업 완료</b>를 누릅니다.</li>
         <li>개선안은 시간·탭·스크롤·경로·성공 시점을 자동 기록합니다.</li>
+        <li>개선안에서 참가자가 포기하면 우측 상단 <b>기록 중</b>을 누른 뒤 <b>과업 중단</b>을 선택합니다.</li>
         <li>각 조건 직후 참가자가 SEQ와 과업별 후속 질문에 답하고, 진행자가 관찰 내용을 입력합니다.</li>
       </ol>
     </section>
@@ -47,7 +48,7 @@
     <section class="task-section" aria-labelledby="tasks-title">
       <div class="section-title"><div><small>STEP 3</small><h2 id="tasks-title">과업 실행</h2></div><span>T1–T4 실행 가능</span></div>
       <article class="task-card is-ready" data-task-card="t1">
-        <header><span>T1</span><div><h3>홈에서 이전 찜 상품 다시 마주하기</h3><p>K1 찜 재방문율</p></div></header>
+        <header><span>T1</span><div><h3>홈에서 이전 찜 상품 다시 마주하기</h3><p>대상 상세 도달 성공률 · 도달 시간 · 조작 수</p></div></header>
         <blockquote>“전에 찜해 둔 슬로우앤드의 흰색 롱스커트를 다시 보고 싶습니다. 해당 상품을 찾아 현재 가격을 확인해 주세요.”</blockquote>
         <div class="order-strip" data-order-strip>권장 순서: 참여자 선택 후 표시</div>
         <div class="condition-list">
@@ -65,7 +66,7 @@
       </article>
 
       <article class="task-card is-ready" data-task-card="t2">
-        <header><span>T2</span><div><h3>찜 안에서 매몰된 상품 재검토</h3><p>K2 매몰 구간 재검토율</p></div></header>
+        <header><span>T2</span><div><h3>찜 안에서 매몰된 상품 재검토</h3><p>매몰 상품 재검토 성공률 · 탐색 시간 · 스크롤 수</p></div></header>
         <blockquote>“예전에 찜해 둔 은색 로고가 있는 흰색 카드지갑을 다시 보고 싶습니다. 해당 상품을 찾아 현재 가격과 상세 정보를 확인해 주세요.”</blockquote>
         <div class="order-strip" data-order-strip>권장 순서: 참여자 선택 후 표시</div>
         <div class="condition-list">
@@ -82,7 +83,7 @@
         </div>
       </article>
       <article class="task-card is-ready" data-task-card="t3">
-        <header><span>T3</span><div><h3>찜 상품 20개 정리</h3><p>K3 찜 목록 관리 이탈률</p></div></header>
+        <header><span>T3</span><div><h3>찜 상품 20개 정리</h3><p>20개 정리 완료율 · 중도 이탈 여부</p></div></header>
         <blockquote>“찜 상품이 너무 많아 목록을 정리하려고 합니다. 현재 찜 목록에서 제외하고 싶은 상품 20개를 정리해 주세요.”</blockquote>
         <div class="order-strip" data-order-strip>권장 순서: 참여자 선택 후 표시</div>
         <div class="condition-list">
@@ -99,7 +100,7 @@
         </div>
       </article>
       <article class="task-card is-ready" data-task-card="t4">
-        <header><span>T4</span><div><h3>정리한 상품 복원</h3><p>K3 보조 · 정리 기능 안전성</p></div></header>
+        <header><span>T4</span><div><h3>정리한 상품 복원</h3><p>지정 상품 복원 성공률</p></div></header>
         <blockquote>“방금 정리한 상품 중 ‘핀턱 와이드 슬랙스’를 다시 찜 목록에서 볼 수 있게 해 주세요.”</blockquote>
         <div class="order-strip" data-order-strip>개선안 전용 과업</div>
         <div class="condition-list">
