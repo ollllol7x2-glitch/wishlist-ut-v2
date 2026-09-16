@@ -247,7 +247,7 @@ function homeTemplate(){
   const basis=getProduct(state.homeBasisId);
   const related=homeRelatedProducts();
   return `<div class="screen-view v24-home">
-    <header class="home-header"><img src="assets/zigzag-text-logo.png" alt="지그재그"><div><button aria-label="검색" data-action="open-search">${icon('icon-search-bold.svg')}</button><button aria-label="장바구니" data-route="cart">${icon('icon-shoppingbag-bold.svg')}</button></div></header>
+    <header class="home-header"><img src="assets/zigzag-text-logo.png" alt="지그재그"><div><button aria-label="전체 상품 검색" data-action="open-search" data-search-scope="all">${icon('icon-search-bold.svg')}</button><button aria-label="장바구니" data-route="cart">${icon('icon-shoppingbag-bold.svg')}</button></div></header>
     <nav class="v24-home-tabs"><span>라룸</span><b>홈</b><span>착한구두</span><span>랭킹</span><span>셀렉티드</span><span>브랜드</span><span>뷰티</span></nav>
     <div class="v24-main-banner"><img src="assets/products/p08-stripe-shirt.webp" alt="얼리어텀 스타일 기획전"><span><small>EARLY AUTUMN</small><b>지금 필요한<br>가을 스타일</b><em>최대 68%</em></span><div class="v24-hero-controls"><i><b></b></i><button type="button" data-action="out-of-scope">전체보기 ›</button></div></div>
     <div class="v24-home-shortcuts" aria-label="홈 바로가기">
@@ -276,12 +276,19 @@ function searchTemplate(){
   const isEmpty=scoped && query.trim()==='트렌치';
   const walletSearchText=`${walletProduct.store} ${walletProduct.name} 흰색 화이트 은색 로고 카드지갑 카드 지갑 월렛 렌토 lento 가방`.toLowerCase();
   const walletMatches=hasQuery&&normalizedQuery.split(/\s+/).every(term=>walletSearchText.includes(term));
-  const resultItems=utTask==='t2'?(walletMatches?t2SearchItems:[]):(hasQuery?(scoped?searchItems:allSearchItems):[]);
-  const resultCount=utTask==='t2'?resultItems.length:(scoped?'7':'1,204');
-  const initialSearch=`<div class="v24-section-line"></div><section class="v24-keywords"><header><h2>최근 검색어</h2><button>전체 삭제</button></header><div class="v24-recent-words"><span>카고 스커트 ✕</span><span>니트 ✕</span><span>자라 ✕</span></div></section><div class="v24-section-line"></div><section class="v24-keywords"><header><h2>인기 검색어</h2><small>오전 4:00 업데이트</small></header><ol><li>스트라이프 <i>▲</i></li><li>셔츠 <em>▼</em></li><li>나시 <em>▼</em></li><li>부츠컷 <b>-</b></li><li>얼리어텀 <i>▲</i></li><li>트레이닝 <i>▲</i></li></ol></section><p class="v24-search-guide">찜한 상품 안에서만 검색해요.</p>`;
+  const t1SearchText=`${t1TargetProduct.store} ${t1TargetProduct.name} 파란색 블루 브이넥 니트 상의`.toLowerCase();
+  const t1TargetMatches=hasQuery&&normalizedQuery.split(/\s+/).every(term=>t1SearchText.includes(term));
+  const t1SearchItems=[{product:t1TargetProduct,badge:'직진',interest:'★4.8 · 관심 2,961'}];
+  const resultItems=utTask==='t2'
+    ? (walletMatches?t2SearchItems:[])
+    : (utTask==='t1'&&!scoped
+      ? (t1TargetMatches?t1SearchItems:[])
+      : (hasQuery?(scoped?searchItems:allSearchItems):[]));
+  const resultCount=['t1','t2'].includes(utTask)?resultItems.length:(scoped?'7':'1,204');
+  const initialSearch=`<div class="v24-section-line"></div><section class="v24-keywords"><header><h2>최근 검색어</h2><button>전체 삭제</button></header><div class="v24-recent-words"><span>카고 스커트 ✕</span><span>니트 ✕</span><span>자라 ✕</span></div></section><div class="v24-section-line"></div><section class="v24-keywords"><header><h2>인기 검색어</h2><small>오전 4:00 업데이트</small></header><ol><li>스트라이프 <i>▲</i></li><li>셔츠 <em>▼</em></li><li>나시 <em>▼</em></li><li>부츠컷 <b>-</b></li><li>얼리어텀 <i>▲</i></li><li>트레이닝 <i>▲</i></li></ol></section>${scoped?'<p class="v24-search-guide">찜한 상품 안에서만 검색해요.</p>':''}`;
   const noResult=`<div class="v24-section-line"></div><div class="v24-search-empty"><span>?</span><h2>검색 결과가 없어요</h2><p>다른 검색어를 입력해 보세요.</p></div>`;
   return `<div class="screen-view v24-search${isEmpty?' is-empty-result':''}">
-    <div class="v24-search-head"><button type="button" data-action="go-back" aria-label="뒤로">‹</button><label>${scoped?'<button class="scope-token" type="button" data-action="remove-search-scope">찜 내 검색 <span>✕</span></button>':''}<input id="wishlist-search-input" value="${query}" placeholder="검색어 입력" aria-label="검색어">${!scoped&&hasQuery?'<button type="button" data-action="clear-search" aria-label="검색어 지우기">✕</button>':''}<button class="search-submit" type="button" data-action="submit-search" aria-label="검색">${icon('icon-search-bold.svg')}</button></label></div>
+    <div class="v24-search-head"><button type="button" data-action="go-back" aria-label="뒤로">‹</button><label>${scoped?'<button class="scope-token" type="button" data-action="remove-search-scope">찜 내 검색 <span>✕</span></button>':''}<input id="wishlist-search-input" value="${query}" placeholder="${scoped?'검색어 입력':'상품 또는 스토어 검색'}" aria-label="검색어">${!scoped&&hasQuery?'<button type="button" data-action="clear-search" aria-label="검색어 지우기">✕</button>':''}<button class="search-submit" type="button" data-action="submit-search" aria-label="검색">${icon('icon-search-bold.svg')}</button></label></div>
     ${!hasQuery?initialSearch:isEmpty?`<div class="v24-section-line"></div><section class="v24-keywords"><header><h2>최근 검색어</h2><button>전체 삭제</button></header><div class="v24-recent-words"><span>카고 스커트 ✕</span><span>니트 ✕</span><span>자라 ✕</span></div></section><div class="v24-section-line"></div><section class="v24-keywords"><header><h2>인기 검색어</h2><small>오전 4:00 업데이트</small></header><ol><li>스트라이프 <i>▲</i></li><li>셔츠 <em>▼</em></li><li>나시 <em>▼</em></li><li>부츠컷 <b>-</b></li><li>얼리어텀 <i>▲</i></li><li>트레이닝 <i>▲</i></li></ol></section><div class="v24-section-line"></div><div class="v24-search-empty"><span>?</span><h2>'겨울옷' 폴더에 '트렌치'가 없어요</h2><p>다른 폴더를 선택하거나<br>전체 상품에서 찾아보세요</p></div>`:resultItems.length===0?noResult:`${scoped?'<div class="v24-folder-choices"><b>전체</b><span>기본 폴더</span><span>겨울옷</span><span>스타일링</span></div><div class="v24-section-line"></div>':''}<div class="v24-result-tools"><span>검색결과 <b>${resultCount}개</b></span><button>신상품순 ▾</button></div><div class="v24-search-grid">${resultItems.map(item=>v24SearchCard(item,{folder:scoped})).join('')}</div>`}
   </div>`;
 }
@@ -549,7 +556,7 @@ document.addEventListener('click',event=>{
   }
   const action=target.dataset.action;
   if(action==='out-of-scope'){showToast('After v25 화면 범위에는 포함되지 않은 메뉴예요');}
-  if(action==='open-search'){state.searchScope='folder';state.searchQuery='';showRoute('search');}
+  if(action==='open-search'){state.searchScope=target.dataset.searchScope==='all'?'all':'folder';state.searchQuery='';showRoute('search');}
   if(action==='go-back')showRoute(state.previousRoute||'wishlist');
   if(action==='select-home-basis'){state.homeBasisId=target.dataset.productId;renderRoute();updateReviewLabel();reportUTRoute();}
   if(action==='open-detail'){closeOverlay();state.utCandidate=target.dataset.utCandidate||'';showRoute('detail',{productId:target.dataset.productId});}

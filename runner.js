@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     });
     root.querySelector('[data-stop-prototype]').addEventListener('click',stopPrototype);
     iframe=root.querySelector('iframe');
-    const prototypeQuery=new URLSearchParams({ut:'1',task:taskId,condition,participant,build:'22'});
+    const prototypeQuery=new URLSearchParams({ut:'1',task:taskId,condition,participant,build:'23'});
     const conditionKey=condition==='before-live'?'before':'after';
     const start=task.conditions?.[conditionKey]?.start||'wishlist';
     const startHash={home:'C1',wishlist:'A1','cleanup-complete':'G3c','wishlist-after-cleanup':'A1C'}[start]||'A1';
