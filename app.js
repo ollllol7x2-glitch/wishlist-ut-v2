@@ -31,42 +31,51 @@ const homeAnchorProducts = [
   {id:'p13',store:'슬로우앤드',name:'made. 레스 자카드 플라워 스커트',shortName:'플라워 스커트',price:35200,discount:41,category:'스커트',image:'extra-7.webp',tags:['무료배송'],rating:'4.9',reviews:'29'}
 ];
 
+const t1AnchorProduct = {
+  id:'p15',store:'디어먼트',name:'[가을니트][MADE] 에버 탄탄 소프트 브이넥 니트 가디건',shortName:'흰색 브이넥 니트 가디건',
+  price:25190,discount:44,category:'상의',image:'p15-dearment-vneck-cardigan.webp',tags:['직진배송','자체제작'],rating:'4.8',reviews:'631'
+};
+
+const t1TargetProduct = {
+  id:'p16',store:'메리어라운드',name:'[ofm] 소르베 린넨 브이넥 니트',shortName:'파란색 브이넥 니트',
+  price:23760,discount:40,category:'상의',image:'p16-merryaround-vneck-knit.webp',tags:['쇼핑몰위크','무료배송'],rating:'4.8',reviews:'2,961'
+};
+
 const walletProduct = {
   id:'p14',store:'슬로우앤드',name:'[무료배송/NEW COLOR!] #LENTO. minimal card wallet (소가죽) - 6 color',
   price:23050,oldPrice:34900,discount:34,category:'가방',image:'p14-white-card-wallet.webp',
   tags:['쇼핑몰위크','무료배송'],rating:'4.9',reviews:'1,398'
 };
 
-const catalogProducts = [...products,...oldProducts,...extraProducts,...homeAnchorProducts,walletProduct];
+const catalogProducts = [...products,...oldProducts,...extraProducts,...homeAnchorProducts,t1AnchorProduct,t1TargetProduct,walletProduct];
 /* 공통 찜 목록은 기존 서비스와 같은 비교 기반으로 사용한다. */
 const wishlistBaseProducts = [
+  products[0],extraProducts[1],products[1],t1AnchorProduct,
   extraProducts[2],extraProducts[3],extraProducts[5],
-  extraProducts[1],extraProducts[4],homeAnchorProducts[0],
-  products[0],products[1],products[2],
+  extraProducts[4],homeAnchorProducts[0],products[2],t1TargetProduct,
   products[3],products[4],products[5],
   oldProducts[0],oldProducts[1],oldProducts[2],
   oldProducts[3],oldProducts[4],oldProducts[5],walletProduct
 ];
-const wishlistFillerPool = wishlistBaseProducts.filter(product=>!['p01','p10','p11','p14'].includes(product.id));
+const wishlistFillerPool = wishlistBaseProducts.filter(product=>!['p01','p10','p11','p14','p15','p16'].includes(product.id));
 const wishlistFillers = Array.from({length:54},(_,index)=>{
   const base=wishlistFillerPool[index%wishlistFillerPool.length];
   const round=Math.floor(index/wishlistFillerPool.length)+2;
   return {...base,sourceId:base.id,id:`f${String(index+1).padStart(2,'0')}`,name:`${base.name} · ${round}컬러`,visualVariant:(index%5)+1};
 });
-const wishlistTarget=products[0];
+const wishlistTarget=t1TargetProduct;
 const wishlistWithoutTarget=wishlistBaseProducts.filter(product=>product.id!==wishlistTarget.id);
-/* 대상 치마는 25번째 카드로 배치해 긴 목록에서 여러 번 스크롤해야 도달한다. */
+/* 실제 표준 계정과 맞춰 T1 목표 상품은 약 2회 스크롤 구간(11번째)에 둔다. */
 const wishlistProducts = [
-  ...wishlistWithoutTarget.slice(0,6),
-  ...wishlistFillers.slice(0,18),
+  ...wishlistWithoutTarget.slice(0,10),
   wishlistTarget,
-  ...wishlistWithoutTarget.slice(6),
-  ...wishlistFillers.slice(18)
+  ...wishlistWithoutTarget.slice(10),
+  ...wishlistFillers
 ];
 const allProducts = [...catalogProducts,...wishlistFillers];
 /* T2: 다른 후보 열람은 허용하되 카드지갑 p14에서만 자동 완료한다. */
 const t2CandidateIds = new Set(['p14']);
-const state = {route:'wishlist',previousRoute:'wishlist',searchScope:'folder',searchQuery:'니트',notificationFilter:'전체',cleanupResult:null,cleanupApplied:false,archiveVariant:'E3',archiveReturnVariant:'E3',selectedEdit:new Set(),selectedArchive:new Set(),restoredArchive:new Set(),homeBasisId:'p13',utCandidate:''};
+const state = {route:'wishlist',previousRoute:'wishlist',searchScope:'folder',searchQuery:'니트',notificationFilter:'전체',cleanupResult:null,cleanupApplied:false,archiveVariant:'E3',archiveReturnVariant:'E3',selectedEdit:new Set(),selectedArchive:new Set(),restoredArchive:new Set(),homeBasisId:'p15',utCandidate:''};
 const appQuery = new URLSearchParams(location.search);
 const boardEmbedMode = appQuery.get('embed');
 const utMode = appQuery.get('ut')==='1';
@@ -209,6 +218,7 @@ function homeBasisCircle(p){
 
 function homeRelatedProducts(){
   const groups={
+    p15:[t1AnchorProduct,t1TargetProduct,products[1],oldProducts[4]],
     p13:[homeAnchorProducts[0],products[0],products[2],extraProducts[5]],
     p08:[oldProducts[1],products[0],oldProducts[2],extraProducts[1]],
     p02:[products[1],oldProducts[3],oldProducts[4],extraProducts[1]],
@@ -216,7 +226,7 @@ function homeRelatedProducts(){
     p03:[products[2],oldProducts[0],products[4],extraProducts[5]],
     p10:[oldProducts[3],products[1],oldProducts[4],extraProducts[1]]
   };
-  return groups[state.homeBasisId]||groups.p13;
+  return groups[state.homeBasisId]||groups.p15;
 }
 
 function v24SelectCard(p,index,{archive=false,selectable=true}={}){
@@ -233,7 +243,7 @@ function v24SelectCard(p,index,{archive=false,selectable=true}={}){
 }
 
 function homeTemplate(){
-  const basisProducts=[homeAnchorProducts[0],products[1],products[0],products[2],oldProducts[3]];
+  const basisProducts=[t1AnchorProduct,homeAnchorProducts[0],products[1],products[0],products[2]];
   const basis=getProduct(state.homeBasisId);
   const related=homeRelatedProducts();
   return `<div class="screen-view v24-home">
@@ -252,7 +262,7 @@ function homeTemplate(){
     <section class="v24-home-revisit"><header><h2>찜한 상품, 아직 보고 계신가요</h2><button data-route="wishlist">더보기 ›</button></header>
       <h3>최근 찜한 상품</h3>
       <div class="home-basis-rail" aria-label="연관 상품의 기준이 되는 최근 찜 상품">${basisProducts.map(homeBasisCircle).join('')}</div>
-      <div class="v24-related-block"><h3>‘${basis.shortName||basis.name}’와 같이 볼 상품</h3><p>기준 상품의 카테고리와 스타일을 따라 골랐어요</p><div class="v24-horizontal-products is-related-row">${related.map((p,i)=>v24MiniCard(p,{small:true,basis:i===0})).join('')}</div></div>
+      <div class="v24-related-block"><h3>‘${basis.shortName||basis.name}’과 같이 볼 상품</h3><p>기준 상품의 카테고리와 스타일을 따라 골랐어요</p><div class="v24-horizontal-products is-related-row">${related.map((p,i)=>v24MiniCard(p,{small:true,basis:i===0})).join('')}</div></div>
     </section>
     <section class="v24-existing"><header><h2>김선옥님의 취향에 맞춘 상품</h2><small>Sponsored</small></header><div class="v24-home-feed-filters"><b>전체</b><span>주말직진</span><span>뷰티위크</span><span>스커트</span></div><div>${wishlistBaseProducts.slice(0,9).map(p=>v24MiniCard(p)).join('')}</div></section>
   </div>`;
