@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f5f6f7">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <link rel="icon" href="data:,">
+  <title>찜 2차 확인 · 세션 홈</title>
+  <link rel="preload" href="assets/fonts/Pretendard-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/Pretendard-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="facilitator.css?v=round2-1">
+  <script src="task-manifest.js?v=round2-1" defer></script>
+  <script src="session-store.js?v=round2-1" defer></script>
+  <script src="facilitator.js?v=round2-1" defer></script>
+</head>
+<body>
+  <main>
+    <header class="page-header">
+      <p>진행자용 · 2차 확인</p>
+      <h1>찜 사용성 테스트 · 2차 확인</h1>
+      <span>같은 다섯 명에게 개선안만 진행합니다. T1 → T2′ → T3 → T4 순서로 수행하고 2차 CSV를 저장합니다.</span>
+    </header>
+
+    <section class="card participant-card" aria-labelledby="participant-title">
+      <div class="section-head"><div><small>STEP 1</small><h2 id="participant-title">참여자 선택</h2></div><b id="participant-status">선택 전</b></div>
+      <div class="participant-buttons" role="group" aria-label="참여자 선택">
+        <button type="button" data-participant="P1">P1</button>
+        <button type="button" data-participant="P2">P2</button>
+        <button type="button" data-participant="P3">P3</button>
+        <button type="button" data-participant="P4">P4</button>
+        <button type="button" data-participant="P5">P5</button>
+      </div>
+      <p id="order-note">참여자를 선택하면 과업 순서와 기록이 연결됩니다.</p>
+    </section>
+
+    <section class="card operation-card" aria-labelledby="operation-title">
+      <div class="section-head"><div><small>STEP 2</small><h2 id="operation-title">운영 순서</h2></div></div>
+      <ol>
+        <li>시작 안내: “지난번과 같은 계정입니다. 화면이 조금 바뀌었습니다.”</li>
+        <li>진행자는 과업 문장만 읽습니다. 기능 이름이나 조작 방법을 알려주지 않습니다.</li>
+        <li>T1·T2′는 최대 60초. 상품을 고르면 우측 상단 <b>기록 중 → 선택 완료</b>로 진행자가 종료합니다. 탭 없이 “이거요”라고 고르면 결과 화면에 상품과 출처를 기록합니다.</li>
+        <li>T3·T4는 최대 3분. 정리·삭제·복원 실행 시 자동 종료합니다. 60초 무진전 또는 포기 의사면 중단하고, 프로토타입 오류는 별도 판정합니다.</li>
+        <li>힌트는 과업 중 주지 않습니다. 멈추면 “지금 무엇을 생각하고 계신가요?”만 묻습니다.</li>
+        <li>과업 직후 SEQ와 후속 질문을 기록합니다. 제시 후 이해는 탐색 결과를 기록한 다음 확인합니다.</li>
+      </ol>
+    </section>
+
+    <section class="task-section" aria-labelledby="tasks-title">
+      <div class="section-title"><div><small>STEP 3</small><h2 id="tasks-title">과업 실행</h2></div><span>개선안 전용 · 네 과업</span></div>
+      <div id="round2-task-cards"></div>
+    </section>
+
+    <section class="card export-card">
+      <div class="section-head"><div><small>STEP 4</small><h2>세션 마무리</h2></div></div>
+      <div class="export-actions"><button type="button" class="primary" id="export-csv">2차 CSV 저장</button><button type="button" class="secondary" id="reset-participant">이 참여자 기록 초기화</button></div>
+      <p>기록은 이 브라우저에 저장됩니다. CSV에는 round=2, prior_exposure=1차, 제안 이용 경로, 선택 상품 출처와 과업별 응답이 포함됩니다.</p>
+    </section>
+  </main>
+</body>
+</html>

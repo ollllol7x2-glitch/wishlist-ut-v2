@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="data:,">
+  <title>찜 전환 UX 개선 | UT Prototype</title>
+  <link rel="preload" href="assets/fonts/Pretendard-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/Pretendard-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/products/p01-ivory-skirt.png" as="image">
+  <link rel="preload" href="assets/products/p15-dearment-vneck-cardigan.webp" as="image">
+  <link rel="preload" href="assets/products/p16-merryaround-vneck-knit.webp" as="image">
+  <link rel="stylesheet" href="styles.css?v=round2-1">
+  <script src="task-manifest.js?v=round2-1" defer></script>
+  <script src="app.js?v=round2-1" defer></script>
+</head>
+<body>
+  <p class="review-label" aria-hidden="true">A1 · 찜 기본 폴더 상단</p>
+
+  <main class="device" aria-label="A1 찜 기본 화면 Hi-fi 시안">
+    <div class="app-shell">
+      <section class="content" id="content" aria-labelledby="screen-title">
+        <div id="wishlist-view">
+        <header class="app-header">
+          <h1 id="screen-title">찜</h1>
+          <div class="header-actions">
+            <button class="icon-button" type="button" aria-label="검색" data-action="open-search">
+              <img class="icon asset-icon" src="assets/icons/icon-search-bold.svg" alt="">
+            </button>
+            <button class="icon-button" type="button" aria-label="장바구니" data-route="cart">
+              <img class="icon asset-icon" src="assets/icons/icon-shoppingbag-bold.svg" alt="">
+            </button>
+          </div>
+        </header>
+
+        <div class="search-wrap">
+          <button class="search-field" type="button" aria-label="찜한 상품 검색" data-action="open-search">
+            <img class="icon asset-icon" src="assets/icons/icon-search-bold.svg" alt="">
+            <span>찜한 상품 검색</span>
+            <b class="search-count">34</b>
+          </button>
+        </div>
+
+        <button class="rediscover" type="button" aria-label="다시 살펴볼 상품 5개 보기" data-action="open-revisit">
+          <span class="rediscover-copy">
+            <small>관심 가졌던 상품을 모아봤어요</small>
+            <strong>다시 살펴볼 상품</strong>
+          </span>
+          <span class="rediscover-tail">
+            <b>5개</b>
+            <img class="icon asset-icon" src="assets/icons/icon-arrow-right-light.svg" alt="">
+          </span>
+        </button>
+
+        <div class="filters" aria-label="찜 필터">
+          <div class="folder-row">
+            <button class="benefit-chip" type="button" data-route="price">
+              <svg class="icon" aria-hidden="true"><use href="#icon-price"/></svg>
+              <span>가격 하락</span>
+            </button>
+            <span class="separator" aria-hidden="true"></span>
+            <button class="folder-chip" type="button">기본 폴더</button>
+            <button class="hidden-collection-chip" type="button" aria-label="정리한 상품 14개 보기" data-route="archive">
+              <span class="hidden-eye-icon" aria-hidden="true"></span>
+              <span>정리한 상품 14</span>
+            </button>
+          </div>
+
+          <div class="category-row" role="tablist" aria-label="상품 카테고리">
+            <button type="button" role="tab" aria-selected="true" data-category="전체">전체</button>
+            <button type="button" role="tab" aria-selected="false" data-category="아우터">아우터</button>
+            <button type="button" role="tab" aria-selected="false" data-category="상의">상의</button>
+            <button type="button" role="tab" aria-selected="false" data-category="원피스">원피스</button>
+            <button type="button" role="tab" aria-selected="false" data-category="바지">바지</button>
+            <button type="button" role="tab" aria-selected="false" data-category="스커트">스커트</button>
+            <button type="button" role="tab" aria-selected="false" data-category="슈즈">슈즈</button>
+          </div>
+
+          <div class="list-tools">
+            <p id="product-count">상품 428</p>
+            <div>
+              <button type="button">스토어별 보기</button>
+              <i aria-hidden="true"></i>
+              <button type="button" data-route="edit">편집</button>
+            </div>
+          </div>
+        </div>
+
+        <section class="products" aria-label="최근 담은 상품">
+          <div class="product-grid" id="product-grid" aria-live="polite"></div>
+        </section>
+
+        </div>
+        <section class="route-screen" id="route-screen" hidden aria-live="polite"></section>
+      </section>
+
+      <nav class="bottom-nav" aria-label="주요 메뉴">
+        <button type="button" data-route="home">
+          <img class="icon asset-icon" src="assets/icons/icon-home-bold.svg" alt="">
+          <span>홈</span>
+        </button>
+        <button type="button" data-action="out-of-scope" aria-label="스토어 - v25 화면 범위 외">
+          <img class="icon asset-icon" src="assets/icons/icon-store-off.svg" alt="">
+          <span>스토어</span>
+        </button>
+        <button type="button" data-action="out-of-scope" aria-label="카테고리 - v25 화면 범위 외">
+          <img class="icon asset-icon" src="assets/icons/icon-menu-bold.svg" alt="">
+          <span>카테고리</span>
+        </button>
+        <button class="is-current" type="button" aria-current="page" data-route="wishlist">
+          <img class="icon asset-icon" src="assets/icons/icon-heart-solid.svg" alt="">
+          <span>찜</span>
+        </button>
+        <button type="button" data-route="notifications">
+          <img class="icon asset-icon" src="assets/icons/icon-mypage-bold.svg" alt="">
+          <span>마이페이지</span>
+        </button>
+      </nav>
+      <div class="overlay-root" id="overlay-root" aria-live="assertive"></div>
+    </div>
+  </main>
+
+  <svg class="svg-sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <symbol id="icon-folder" viewBox="0 0 24 24"><path d="M3 5h6l2 3h10v12H3V5Z"/></symbol>
+      <symbol id="icon-price" viewBox="0 0 24 24"><path d="M6 2h12v12h4L12 23 2 14h4V2Z"/><path class="cutout" d="m9 11 6-6"/><circle class="cutout-fill" cx="9" cy="5" r="1"/><circle class="cutout-fill" cx="15" cy="11" r="1"/></symbol>
+    </defs>
+  </svg>
+</body>
+</html>
