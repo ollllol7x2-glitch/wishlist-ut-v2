@@ -460,6 +460,8 @@ function reportUTCompletion(){
     },'*');
     return;
   }
+  /* T4는 대상 상품 상세 진입이나 선택이 아니라 실제 복원 후에만 완료한다. */
+  if(utTask==='t4')return;
   if(['t1','t2p'].includes(utTask))return;
   if(state.route!=='detail')return;
   const conditionKey=utCondition==='before-live'?'before':'after';
