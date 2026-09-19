@@ -518,7 +518,7 @@ function showToast(message){ overlayRoot.innerHTML=`<div class="toast" role="sta
 function showRevisit(){
   const revisit=[oldProducts[4],walletProduct,oldProducts[3],products[1],oldProducts[2]];
   const meta=['스타일링 · 7개월 전 찜','기본 폴더 · 다시 보기 추천','기본 폴더 · 6개월 전 찜','겨울옷 · 5개월 전 찜','기본 폴더 · 8개월 전 찜'];
-  overlayRoot.innerHTML=`<div class="overlay-dim" data-action="close-overlay"></div><section class="bottom-sheet revisit-sheet" role="dialog" aria-modal="true" aria-labelledby="revisit-title"><div class="sheet-handle"></div><header><h2 id="revisit-title">지금 다시 살펴볼 상품</h2></header><div class="revisit-list">${revisit.map((p,i)=>`<article><button class="revisit-main" type="button" data-action="open-detail" data-product-id="${p.id}" data-ut-candidate="t2"><img src="assets/products/${p.image}" alt="${p.name}"><span><b>${p.store}</b><strong>${p.name}</strong><small>${meta[i]}</small><em><i>${p.discount}%</i> ${formatPrice(p.price)}원</em></span></button><button class="revisit-cart" type="button" data-action="add-cart">${icon('icon-shoppingbag-bold.svg')}<span>담기</span></button></article>`).join('')}</div></section>`;
+  overlayRoot.innerHTML=`<div class="overlay-dim" data-action="close-overlay"></div><section class="bottom-sheet revisit-sheet" role="dialog" aria-modal="true" aria-labelledby="revisit-title"><div class="sheet-handle"></div><header><h2 id="revisit-title">지금 다시 살펴볼 상품</h2></header><div class="revisit-list">${revisit.map((p,i)=>`<article><button class="revisit-main" type="button" data-action="open-detail" data-product-id="${p.id}" data-ut-candidate="t2"><img src="assets/products/${p.image}" alt="${p.name}"><span><b>${p.store}</b><strong>${p.name}</strong><small>${meta[i]}</small><em><i>${p.discount}%</i> ${formatPrice(p.price)}원</em></span></button><button class="revisit-cart" type="button" data-action="add-cart" data-product-id="${p.id}">${icon('icon-shoppingbag-bold.svg')}<span>담기</span></button></article>`).join('')}</div></section>`;
   updateReviewLabel('D1 · 다시 살펴볼 상품 바텀시트');
 }
 
@@ -608,7 +608,12 @@ document.addEventListener('click',event=>{
   if(action==='select-all'){state.selectedEdit=new Set(wishlistProducts.filter(p=>!state.deletedProducts.has(p.id)&&!state.cleanupIds.has(p.id)).map(p=>p.id));renderRoute();}
   if(action==='archive-selected'){showToast(`${state.selectedEdit.size}개 상품을 정리한 상품으로 옮겼어요`);state.selectedEdit.clear();renderRoute();}
   if(action==='move-selected')showToast(`${state.selectedEdit.size}개 상품의 이동할 폴더를 선택해주세요`);
-  if(action==='add-cart')showToast('장바구니에 상품을 담았어요');
+  if(action==='add-cart'){
+    if(target.closest('.revisit-list')&&target.dataset.productId){
+      reportUTEvent('product-choice',{selectedProductId:target.dataset.productId,selectedProductName:getProduct(target.dataset.productId).name,selectionSource:'revisit-sheet',revisitOpened:true});
+    }
+    showToast('장바구니에 상품을 담았어요');
+  }
   if(action==='toggle-archive'){
     const id=target.dataset.productId;
     state.selectedArchive.has(id)?state.selectedArchive.delete(id):state.selectedArchive.add(id);

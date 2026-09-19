@@ -209,15 +209,19 @@ document.addEventListener('DOMContentLoaded',()=>{
     const rect=trackedDocument.documentElement.getBoundingClientRect();
     const productId=target.dataset?.productId||target.closest?.('[data-product-id]')?.dataset?.productId||'';
     let choicePatch={};
-    if(target.dataset?.action==='open-detail'&&productId){
+    const isRevisitCart=target.dataset?.action==='add-cart'&&!!target.closest?.('.revisit-list');
+    if((target.dataset?.action==='open-detail'||isRevisitCart)&&productId){
       const currentRoute=routeLabel();
       const selectionSource=target.closest?.('.v24-home-revisit')?'home-area'
         :target.closest?.('.revisit-list')?'revisit-sheet'
         :currentRoute.startsWith('A3')?'search'
         :currentRoute.startsWith('A1')?'wishlist-list'
         :currentRoute.startsWith('C1')?'home-other':'other';
-      const selectedProductName=target.querySelector?.('img[alt]')?.getAttribute('alt')?.trim()||productId;
+      const selectedProductName=target.querySelector?.('img[alt]:not([alt=""])')?.getAttribute('alt')?.trim()
+        ||target.closest?.('article')?.querySelector?.('.revisit-main img[alt]')?.getAttribute('alt')?.trim()
+        ||productId;
       choicePatch={selectedProductId:productId,selectedProductName,selectionSource};
+      if(isRevisitCart)choicePatch.revisitOpened=true;
       if(selectionSource==='home-area')choicePatch.homeAreaSeen=true;
       window.UTStore.updateRun(participant,taskId,condition,choicePatch);
     }
@@ -285,7 +289,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   function renderResult(){
     clearInterval(timerId);clearInterval(exposureTimer);clearInterval(limitTimer);clearTimeout(scrollTimer);
     const run=currentRun();
-    const lastProductTap=[...(run.events||[])].reverse().find(event=>event.type==='tap'&&event.action==='open-detail'&&event.productId);
+    const lastProductTap=[...(run.events||[])].reverse().find(event=>event.type==='tap'&&['open-detail','add-cart'].includes(event.action)&&event.productId);
     const selectedProductValue=run.selectedProductName||run.selectedProductId||lastProductTap?.selectedProductName||lastProductTap?.productId||'';
     const selectedProductSource=run.selectionSource||lastProductTap?.selectionSource||'';
     const taps=isBefore?(run.manualTapCount??'-'):(run.tapCount||0);
@@ -320,7 +324,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     </section>`:'';
     const select=(name,title,options,value,required=false)=>`<label class="field"><span>${title}</span><select name="${name}" ${required?'required':''}>${options.map(([key,text])=>`<option value="${key}" ${String(value??'')===key?'selected':''}>${text}</option>`).join('')}</select></label>`;
     const text=(name,title,value)=>`<label class="field"><span>${title}</span><textarea name="${name}">${escapeText(value||'')}</textarea></label>`;
-    const exploration=task.manualEnd?`<section class="form-card"><h2>탐색·선택 기록</h2><p>상세 화면을 연 마지막 상품이 자동 입력됩니다. 상품 카드를 열지 않고 말로만 선택했거나 다른 상품을 최종 선택했다면 수정해 주세요.</p><label class="field"><span>선택 상품명 또는 ID</span><input name="selectedProductName" value="${escapeText(selectedProductValue)}"></label>${select('selectionSource','최종 선택 상품의 출처',[['','선택해 주세요'],['home-area','홈 찜 영역'],['home-other','홈의 다른 영역'],['revisit-sheet','다시 살펴볼 상품 시트'],['wishlist-list','찜 목록'],['search','검색'],['other','기타'],['none','선택하지 않음']],selectedProductSource,true)}${taskId==='t1'?select('homeAreaSeen','홈 찜 영역: 2초 이상 노출 또는 영역 내 탭',[['true','해당'],['false','해당하지 않음']],String(!!run.homeAreaSeen)):select('revisitOpened','다시 살펴볼 상품 시트를 열었는가',[['true','열었음'],['false','열지 않음']],String(!!run.revisitOpened))}${text('areaRecallAnswer',taskId==='t1'?'홈에서 어떤 상품 영역을 보셨나요?':'찜 화면에서 어떤 영역을 보셨나요?',run.areaRecallAnswer)}${text('areaMeaningAnswer',taskId==='t1'?'그 영역은 어떤 상품을 모아 보여주는 곳이라고 생각했나요?':'맨 위에 있던 묶음은 어떤 상품을 모아 둔 곳이라고 생각했나요?',run.areaMeaningAnswer)}<p>영역을 보지 않았거나 시트를 열지 않은 경우: 지금까지의 답변을 먼저 기록한 뒤 보여주고 이해를 확인합니다.</p><button type="button" class="secondary" data-show-area>영역 제시 후 이해 확인</button>${select('shownAfter','영역을 제시한 뒤 이해를 확인했는가',[['false','아니요'],['true','예']],String(!!run.shownAfter))}${text('shownMeaningAnswer','제시 후 이해 답변',run.shownMeaningAnswer)}</section>`:'';
+    const exploration=task.manualEnd?`<section class="form-card"><h2>탐색·선택 기록</h2><p>상세 화면을 열거나 ‘담기’를 누른 마지막 상품이 자동 입력됩니다. 말로만 선택했거나 다른 상품을 최종 선택했다면 수정해 주세요.</p><label class="field"><span>선택 상품명 또는 ID</span><input name="selectedProductName" value="${escapeText(selectedProductValue)}"></label>${select('selectionSource','최종 선택 상품의 출처',[['','선택해 주세요'],['home-area','홈 찜 영역'],['home-other','홈의 다른 영역'],['revisit-sheet','다시 살펴볼 상품 시트'],['wishlist-list','찜 목록'],['search','검색'],['other','기타'],['none','선택하지 않음']],selectedProductSource,true)}${taskId==='t1'?select('homeAreaSeen','홈 찜 영역: 2초 이상 노출 또는 영역 내 탭',[['true','해당'],['false','해당하지 않음']],String(!!run.homeAreaSeen)):select('revisitOpened','다시 살펴볼 상품 시트를 열었는가',[['true','열었음'],['false','열지 않음']],String(!!run.revisitOpened))}${text('areaRecallAnswer',taskId==='t1'?'홈에서 어떤 상품 영역을 보셨나요?':'찜 화면에서 어떤 영역을 보셨나요?',run.areaRecallAnswer)}${text('areaMeaningAnswer',taskId==='t1'?'그 영역은 어떤 상품을 모아 보여주는 곳이라고 생각했나요?':'맨 위에 있던 묶음은 어떤 상품을 모아 둔 곳이라고 생각했나요?',run.areaMeaningAnswer)}<p>영역을 보지 않았거나 시트를 열지 않은 경우: 지금까지의 답변을 먼저 기록한 뒤 보여주고 이해를 확인합니다.</p><button type="button" class="secondary" data-show-area>영역 제시 후 이해 확인</button>${select('shownAfter','영역을 제시한 뒤 이해를 확인했는가',[['false','아니요'],['true','예']],String(!!run.shownAfter))}${text('shownMeaningAnswer','제시 후 이해 답변',run.shownMeaningAnswer)}</section>`:'';
     const post=taskId==='t4'?`<section class="form-card"><h2>네 과업 후 사후 질문</h2>${text('postChangedAnswer','지난번과 달라 보인 곳이 있었나요? 어디였나요?',run.postChangedAnswer)}${text('postClarityAnswer','정리한 상품이 어디로 갔는지 이번엔 분명했나요?',run.postClarityAnswer)}${select('postIntentAnswer','실제 계정이라면 정리 제안이 떴을 때 어떻게 할 것 같나요?',[['','선택해 주세요'],['clean','정리'],['later','다음에'],['close','닫음']],run.postIntentAnswer)}${text('postIntentReason','그렇게 선택한 이유',run.postIntentReason)}</section>`:'';
     root.innerHTML=`<section class="result-shell">
       <header><small>${escapeText(participant)} · ${escapeText(task.id)} · ${isBefore?'기존 지그재그':'개선안'}</small><h1>과업 결과를 기록해 주세요.</h1></header>
