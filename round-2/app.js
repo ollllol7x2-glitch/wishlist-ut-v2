@@ -338,7 +338,8 @@ function notificationsTemplate(){
 
 function archiveTemplate(){
   const variant=state.archiveVariant||'E3';
-  const archiveItems=[...oldProducts.slice(0,5),extraProducts[0]].filter(product=>!state.restoredArchive.has(product.id));
+  /* T4 대상이 진입하자마자 바로 노출되지 않도록 4번째에 배치한다. */
+  const archiveItems=[oldProducts[1],oldProducts[2],oldProducts[3],oldProducts[0],oldProducts[4],extraProducts[0]].filter(product=>!state.restoredArchive.has(product.id));
   const isEmpty=variant==='E3a'||variant==='E3b';
   const hasCandidates=['E3','E3b'].includes(variant);
   const editing=variant==='E3c';
@@ -522,7 +523,7 @@ function showRevisit(){
 }
 
 function showArchiveInfo(){
-  overlayRoot.innerHTML=`<div class="overlay-dim" data-action="close-overlay"></div><section class="info-sheet bottom-sheet" role="dialog" aria-modal="true"><div class="sheet-handle"></div><h2>정리한 상품</h2><p>모든 폴더에서 정리한 상품을 한곳에 모아봐요.<br>원래 폴더로 되돌릴 수 있고, 숨긴 날부터 30일이 지나면 자동으로 완전 삭제돼요.</p><button class="sheet-primary" data-action="close-overlay">확인</button></section>`;
+  overlayRoot.innerHTML=`<div class="overlay-dim" data-action="close-overlay"></div><section class="info-sheet bottom-sheet" role="dialog" aria-modal="true"><div class="sheet-handle"></div><h2>정리한 상품</h2><p>모든 폴더에서 정리한 상품을 한곳에 모아봐요.<br>원래 폴더로 되돌릴 수 있고, 정리한 날부터 30일이 지나면 자동으로 완전 삭제돼요.</p><button class="sheet-primary" data-action="close-overlay">확인</button></section>`;
   updateReviewLabel('E3i · 정리한 상품 안내');
 }
 

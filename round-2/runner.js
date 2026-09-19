@@ -347,8 +347,8 @@ document.addEventListener('DOMContentLoaded',()=>{
     root.querySelector('[data-show-area]')?.addEventListener('click',()=>{
       let dialog=document.querySelector('#shown-area-dialog');if(dialog)dialog.remove();
       dialog=document.createElement('dialog');dialog.id='shown-area-dialog';dialog.style.cssText='width:min(430px,100vw);height:90dvh;padding:0;border:0;border-radius:12px';
-      dialog.innerHTML=`<button type="button" style="height:44px;width:100%">閉じる</button><iframe title="제시 후 영역 확인" style="width:100%;height:calc(100% - 44px);border:0" src="prototype.html?ut=1&task=shown&condition=after-prototype&participant=${encodeURIComponent(participant)}#${taskId==='t1'?'C1':'D1'}"></iframe>`;
-      dialog.querySelector('button').textContent='확인 후 질문 기록으로 돌아가기';dialog.querySelector('button').onclick=()=>{dialog.close();dialog.remove();};document.body.append(dialog);dialog.showModal();root.querySelector('[name="shownAfter"]').value='true';
+      dialog.innerHTML=`<button type="button" style="height:44px;width:100%">닫기</button><iframe title="제시 후 영역 확인" style="width:100%;height:calc(100% - 44px);border:0" src="prototype.html?ut=1&task=shown&condition=after-prototype&participant=${encodeURIComponent(participant)}#${taskId==='t1'?'C1':'D1'}"></iframe>`;
+      dialog.querySelector('button').textContent='닫기';dialog.querySelector('button').onclick=()=>{dialog.close();dialog.remove();};document.body.append(dialog);dialog.showModal();root.querySelector('[name="shownAfter"]').value='true';
     });
     const form=root.querySelector('#result-form');
     form.addEventListener('submit',event=>{
