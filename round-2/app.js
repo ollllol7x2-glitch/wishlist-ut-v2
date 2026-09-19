@@ -77,7 +77,7 @@ const allProducts = [...catalogProducts,...wishlistFillers];
 const t2CandidateIds = new Set(['p14']);
 const cleanupCandidates=[...wishlistProducts.filter(p=>p.age),...wishlistFillers.filter(p=>!p.age)].slice(0,28);
 cleanupCandidates.forEach(p=>{if(!p.age)p.age='2개월 전';});
-const state = {route:'wishlist',previousRoute:'wishlist',searchScope:'folder',searchQuery:'니트',notificationFilter:'전체',cleanupResult:null,cleanupApplied:false,archiveVariant:'E3',archiveReturnVariant:'E3',selectedEdit:new Set(),selectedArchive:new Set(),restoredArchive:new Set(),homeBasisId:'p15',utCandidate:'',deletedProducts:new Set(),cleanupIds:new Set(),cleanupCount:0,cleanupOrigin:'automatic-sheet',editDeletedCount:0};
+const state = {route:'wishlist',previousRoute:'wishlist',searchScope:'folder',searchQuery:'니트',notificationFilter:'전체',cleanupResult:null,cleanupApplied:false,archiveVariant:'E3',archiveReturnVariant:'E3',selectedEdit:new Set(),selectedArchive:new Set(),restoredArchive:new Set(),detailRestoreNotice:false,homeBasisId:'p15',utCandidate:'',deletedProducts:new Set(),cleanupIds:new Set(),cleanupCount:0,cleanupOrigin:'automatic-sheet',editDeletedCount:0};
 const appQuery = new URLSearchParams(location.search);
 const boardEmbedMode = appQuery.get('embed');
 const utMode = appQuery.get('ut')==='1';
@@ -397,7 +397,7 @@ function cartTemplate(){
 
 function detailTemplate(){
   const p=getProduct(state.productId);
-  const restored=state.previousRoute==='archive';
+  const restored=state.detailRestoreNotice;
   return `<div class="screen-view v24-product-detail">
     <header class="detail-header"><button data-action="go-back" aria-label="뒤로">‹</button><div><button aria-label="검색">${icon('icon-search-bold.svg')}</button><button aria-label="장바구니">${icon('icon-shoppingbag-bold.svg')}</button></div></header>
     <div class="detail-photo"><img src="assets/products/${p.image}" alt="${p.name}"><button aria-label="이미지 찜하기"><img src="assets/icons/heart-on.png" alt=""></button><span>1 / 4</span></div>
@@ -502,6 +502,7 @@ function showRoute(route,options={}){
   if(state.route!==route) state.previousRoute=state.route;
   state.route=route;
   if(options.productId) state.productId=options.productId;
+  state.detailRestoreNotice=route==='detail'&&options.restoreNotice===true;
   const isWishlist=route==='wishlist';
   wishlistView.hidden=!isWishlist;
   routeScreen.hidden=isWishlist;
@@ -575,7 +576,12 @@ document.addEventListener('click',event=>{
   if(action==='close-overlay')closeOverlay();
   if(action==='archive-info')showArchiveInfo();
   if(action==='open-restock')showRestock(target.dataset.context||'active');
-  if(action==='restock-buy'){const archived=target.dataset.archived==='true';closeOverlay();showRoute('detail',{productId:target.dataset.productId});if(archived)history.replaceState(null,'','#G2b');}
+  if(action==='restock-buy'){
+    const archived=target.dataset.archived==='true';
+    if(archived){state.restoredArchive.add(target.dataset.productId);renderProducts();}
+    closeOverlay();showRoute('detail',{productId:target.dataset.productId,restoreNotice:archived});
+    if(archived)history.replaceState(null,'','#G2b');
+  }
   if(action==='restore-item')showToast('상품을 기본 폴더로 되돌렸어요');
   if(action==='remove-search-scope'){state.searchScope='all';renderRoute();}
   if(action==='clear-search'){state.searchQuery='';renderRoute();}
@@ -660,7 +666,7 @@ function openHashState(hash){
   if(key==='G1'){showRoute('wishlist');window.setTimeout(()=>showRestock('active'),40);return;}
   if(key==='G1p'){showRoute('lockscreen');return;}
   if(key==='G2'){showRoute('wishlist');window.setTimeout(()=>showRestock('archive'),40);return;}
-  if(key==='G2b'){showRoute('detail');return;}
+  if(key==='G2b'){showRoute('detail',{productId:extraProducts[4].id,restoreNotice:true});return;}
   if(key==='G3a'||key==='G3b'||key==='G3c'){state.cleanupResult=key==='G3b'?'keep':key==='G3c'?'clean':null;showRoute('cleanup');return;}
   showRoute('wishlist');
 }
